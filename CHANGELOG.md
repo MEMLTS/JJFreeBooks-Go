@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/MEMLTS/JJFreeBooks-Go/compare/v0.6.2...v0.7.0) (2025-08-30)
+
+
+### ✨ 新功能
+
+* **main:** 添加软件更新检查功能 ([805b5ae](https://github.com/MEMLTS/JJFreeBooks-Go/commit/805b5ae34ec9a07b814a73356061295e0880201f))
+
 ## [0.6.2](https://github.com/MEMLTS/JJFreeBooks-Go/compare/v0.6.1...v0.6.2) (2025-08-30)
 
 
