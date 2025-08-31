@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.7.0](https://github.com/MEMLTS/JJFreeBooks-Go/compare/v0.6.2...v0.7.0) (2025-08-31)
+
+
+### ✨ 新功能
+
+* **main:** 添加软件更新检查功能 ([805b5ae](https://github.com/MEMLTS/JJFreeBooks-Go/commit/805b5ae34ec9a07b814a73356061295e0880201f))
+
+
+### ♻️ 代码重构
+
+* **crypto:** 优化 DES 解密错误处理 ([d2be87f](https://github.com/MEMLTS/JJFreeBooks-Go/commit/d2be87fe43a3ad73f677c10006aafc362d4ec735))
+
+
+### 🎡 持续集成
+
+* **release:** 上传构建产物到 GitHub Action 临时存储 ([e3cda16](https://github.com/MEMLTS/JJFreeBooks-Go/commit/e3cda16ee73e1ac65c24c1f3f345f8583f712f55))
+* 优化构建产物上传路径 ([1c7199f](https://github.com/MEMLTS/JJFreeBooks-Go/commit/1c7199fd3fcaa3510292b5a7812b5eb0e6402ab8))
+* 优化构建产物上传路径 ([00e650d](https://github.com/MEMLTS/JJFreeBooks-Go/commit/00e650d44561a233d31d1197297784772b9af5c2))
+
 ## [0.6.2](https://github.com/MEMLTS/JJFreeBooks-Go/compare/v0.6.1...v0.6.2) (2025-08-30)
 
 
