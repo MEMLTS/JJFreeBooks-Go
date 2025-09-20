@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.7.0](https://github.com/MEMLTS/JJFreeBooks-Go/compare/v0.6.2...v0.7.0) (2025-09-20)
+
+
+### ✨ 新功能
+
+* **main:** 添加软件更新检查功能 ([805b5ae](https://github.com/MEMLTS/JJFreeBooks-Go/commit/805b5ae34ec9a07b814a73356061295e0880201f))
+* 启动时执行一次任务 ([fd16cb7](https://github.com/MEMLTS/JJFreeBooks-Go/commit/fd16cb7a23a761a83628d08362d810f121525173))
+
+
+### 📝 文档更新
+
+* 更新 README 中的贡献指南链接 ([e41c211](https://github.com/MEMLTS/JJFreeBooks-Go/commit/e41c21185f469cee4b3bd92abe90afbca5bc48f6))
+* 更新 README 中的贡献指南链接 ([c41af28](https://github.com/MEMLTS/JJFreeBooks-Go/commit/c41af28ddef5b327960502b7cdd5f9c609cae354))
+
+
+### ♻️ 代码重构
+
+* **code:** 优化代码结构和注释 ([e3f039d](https://github.com/MEMLTS/JJFreeBooks-Go/commit/e3f039d33cb4541e5819d2b81383515bb472c023))
+* **config:** 调整抓取间隔时间并更新文档- 将书籍抓取间隔时间从 500 毫秒调整为 1000 毫秒 ([28469b2](https://github.com/MEMLTS/JJFreeBooks-Go/commit/28469b2dca4234b6ff76b4b81f67837d803329b5))
+* **crypto:** 优化 DES 解密错误处理 ([d2be87f](https://github.com/MEMLTS/JJFreeBooks-Go/commit/d2be87fe43a3ad73f677c10006aafc362d4ec735))
+* 优化代码结构和命名 ([0852a12](https://github.com/MEMLTS/JJFreeBooks-Go/commit/0852a128ca685f20545ca07d3c0e9223f8328018))
+
+
+### 🎡 持续集成
+
+* **release:** 上传构建产物到 GitHub Action 临时存储 ([e3cda16](https://github.com/MEMLTS/JJFreeBooks-Go/commit/e3cda16ee73e1ac65c24c1f3f345f8583f712f55))
+* 优化构建产物上传路径 ([1c7199f](https://github.com/MEMLTS/JJFreeBooks-Go/commit/1c7199fd3fcaa3510292b5a7812b5eb0e6402ab8))
+* 优化构建产物上传路径 ([00e650d](https://github.com/MEMLTS/JJFreeBooks-Go/commit/00e650d44561a233d31d1197297784772b9af5c2))
+
 ## [0.6.2](https://github.com/MEMLTS/JJFreeBooks-Go/compare/v0.6.1...v0.6.2) (2025-08-30)
 
 
