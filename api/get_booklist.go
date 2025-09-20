@@ -27,25 +27,25 @@ type Data struct {
 
 // NovelData 代表每本小说的数据
 type NovelData struct {
-	NovelID         string `json:"novelId"`
-	NovelName       string `json:"novelName"`
-	AuthorID        string `json:"authorId"`
-	AuthorName      string `json:"authorName"`
-	Cover           string `json:"cover"`
+	NovelID         string `json:"novelId"`         // 小说的唯一标识符
+	NovelName       string `json:"novelName"`       // 小说标题
+	AuthorID        string `json:"authorId"`        // 作者的唯一标识
+	AuthorName      string `json:"authorName"`      // 作者名字
+	Cover           string `json:"cover"`           // 小说封面图片链接
 	Local           string `json:"local"`
 	LocalImg        string `json:"localImg"`
-	NovelIntroshort string `json:"novelIntroshort"`
-	NovelIntroShort string `json:"novelIntroShort"` // ?
-	NovelIntro      string `json:"novelIntro"`
-	NovelStep       string `json:"novelStep"`
-	Tags            string `json:"tags"`
-	FreeDate        string `json:"freeDate"`
-	NowFree         string `json:"nowFree"`
-	NovelSize       string `json:"novelSize"`
-	NovelSizeFormat string `json:"novelSizeformat"`
-	NovelClass      string `json:"novelClass"`
-	IsVipMonth      string `json:"isVipMonth"`
-	RecommendInfo   string `json:"recommendInfo"` // 这个字段本身是 JSON 字符串
+	NovelIntroshort string `json:"novelIntroshort"` // XwX疑似晋江的石山嗷QAQ
+	NovelIntroShort string `json:"novelIntroShort"` // 一句话简介
+	NovelIntro      string `json:"novelIntro"`      // 简介
+	NovelStep       string `json:"novelStep"`       // 小说状态
+	Tags            string `json:"tags"`            // 小说标签
+	FreeDate        string `json:"freeDate"`        // 免费日期
+	NowFree         string `json:"nowFree"`         // 当前是否免费
+	NovelSize       string `json:"novelSize"`       // 小说文字总量
+	NovelSizeFormat string `json:"novelSizeformat"` // 格式化的文件大小
+	NovelClass      string `json:"novelClass"`      // 小说分类
+	IsVipMonth      string `json:"isVipMonth"`      // 是否为包月会员
+	RecommendInfo   string `json:"recommendInfo"`   // 推荐信息，本身是一个 JSON 字符串
 }
 
 func GetBooksList() (BookListRoot, error) {

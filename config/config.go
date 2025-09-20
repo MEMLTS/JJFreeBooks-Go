@@ -11,6 +11,7 @@ type Config struct {
 	Token     string    `yaml:"token"`
 	Cron      string    `yaml:"cron"`
 	Intervals Intervals `yaml:"intervals"`
+	NovelFilter []string `yaml:"novel_filter"`
 }
 type Intervals struct {
 	Chapter int `yaml:"chapter"`
@@ -21,6 +22,7 @@ func defaultConfig() Config {
 	var config = Config{
 		Token: "",
 		Cron:  "0 0 * * *",
+		NovelFilter: []string{"all"},
 		Intervals: Intervals{
 			Book:    1000,
 			Chapter: 500,
