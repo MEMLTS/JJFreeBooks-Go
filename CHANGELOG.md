@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.8.0](https://github.com/MEMLTS/JJFreeBooks-Go/compare/v0.7.0...v0.8.0) (2025-09-21)
+
+
+### ✨ 新功能
+
+* **main:** 优化小说简介格式化与过滤器逻辑 ([dbaba03](https://github.com/MEMLTS/JJFreeBooks-Go/commit/dbaba035376d250551c3d605670b809c19f8c8f5))
+
+
+### 📝 文档更新
+
+* **readme:** 添加小说分类过滤功能说明 ([e54e531](https://github.com/MEMLTS/JJFreeBooks-Go/commit/e54e5316c9fa45d2cf7449371d03feed83881b6b))
+
 ## [0.7.0](https://github.com/MEMLTS/JJFreeBooks-Go/compare/v0.6.2...v0.7.0) (2025-09-20)
 
 
