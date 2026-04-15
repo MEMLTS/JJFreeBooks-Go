@@ -1,10 +1,7 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
 	"net/url"
 	"time"
 )
@@ -27,11 +24,11 @@ type Data struct {
 
 // NovelData 代表每本小说的数据
 type NovelData struct {
-	NovelID         string `json:"novelId"`         // 小说的唯一标识符
-	NovelName       string `json:"novelName"`       // 小说标题
-	AuthorID        string `json:"authorId"`        // 作者的唯一标识
-	AuthorName      string `json:"authorName"`      // 作者名字
-	Cover           string `json:"cover"`           // 小说封面图片链接
+	NovelID         string `json:"novelId"`    // 小说的唯一标识符
+	NovelName       string `json:"novelName"`  // 小说标题
+	AuthorID        string `json:"authorId"`   // 作者的唯一标识
+	AuthorName      string `json:"authorName"` // 作者名字
+	Cover           string `json:"cover"`      // 小说封面图片链接
 	Local           string `json:"local"`
 	LocalImg        string `json:"localImg"`
 	NovelIntroshort string `json:"novelIntroshort"` // XwX疑似晋江的石山嗷QAQ
@@ -55,26 +52,9 @@ func GetBooksList() (BookListRoot, error) {
 	channelBody := fmt.Sprintf(`{"date_free_%s":{"offset":"0","limit":"40"}}`, date)
 
 	escapedChannelBody := url.QueryEscape(channelBody)
-
-	appUrl := fmt.Sprintf("https://app-cdn.jjwxc.com/bookstore/getFullPageV1?channelBody=%s&channelMore=1", escapedChannelBody)
-
-	res, err := http.Get(appUrl)
-	if err != nil {
-		return BookListRoot{}, err
-	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 	var result BookListRoot
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		return BookListRoot{}, err
-	}
-	err = json.Unmarshal(body, &result)
-	if err != nil {
+	appURL := fmt.Sprintf("https://app-cdn.jjwxc.com/bookstore/getFullPageV1?channelBody=%s&channelMore=1", escapedChannelBody)
+	if err := getJSON(appURL, &result); err != nil {
 		return BookListRoot{}, err
 	}
 	return result, nil

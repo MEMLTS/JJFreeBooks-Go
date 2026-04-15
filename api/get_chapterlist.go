@@ -1,10 +1,7 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
 )
 
 type ChapterListRoot struct {
@@ -79,24 +76,9 @@ type Draft struct {
 }
 
 func GetChapterList(novelId string) (ChapterListRoot, error) {
-	appUrl := fmt.Sprintf("https://app-cdn.jjwxc.com/androidapi/chapterList?novelId=%s&more=0&whole=1", novelId)
-	res, err := http.Get(appUrl)
-	if err != nil {
-		return ChapterListRoot{}, err
-	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			return
-		}
-	}(res.Body)
 	var result ChapterListRoot
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		return ChapterListRoot{}, err
-	}
-	err = json.Unmarshal(body, &result)
-	if err != nil {
+	appURL := fmt.Sprintf("https://app-cdn.jjwxc.com/androidapi/chapterList?novelId=%s&more=0&whole=1", novelId)
+	if err := getJSON(appURL, &result); err != nil {
 		return ChapterListRoot{}, err
 	}
 	return result, nil

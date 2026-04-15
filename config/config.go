@@ -1,34 +1,35 @@
 package config
 
 import (
-	"errors"
 	"os"
+	"strings"
 
 	"gopkg.in/yaml.v3"
 )
 
 type Config struct {
-	Token     string    `yaml:"token"`
-	Cron      string    `yaml:"cron"`
-	Intervals Intervals `yaml:"intervals"`
-	NovelFilter []string `yaml:"novel_filter"`
+	Token       string    `yaml:"token"`
+	Cron        string    `yaml:"cron"`
+	Intervals   Intervals `yaml:"intervals"`
+	NovelFilter []string  `yaml:"novel_filter"`
 }
+
 type Intervals struct {
-	Chapter int `yaml:"chapter"`
-	Book    int `yaml:"novel"`
+	Chapter    int `yaml:"chapter"`
+	Book       int `yaml:"book"`
+	LegacyBook int `yaml:"novel"`
 }
 
 func defaultConfig() Config {
-	var config = Config{
-		Token: "",
-		Cron:  "0 0 * * *",
+	return Config{
+		Token:       "",
+		Cron:        "0 0 * * *",
 		NovelFilter: []string{"all"},
 		Intervals: Intervals{
 			Book:    1000,
 			Chapter: 500,
 		},
 	}
-	return config
 }
 
 func LoadConfig() (Config, error) {
@@ -55,11 +56,33 @@ func LoadConfig() (Config, error) {
 	if err != nil {
 		return Config{}, err
 	}
-	if config.Token == "" {
-		panic(errors.New("token is empty"))
+
+	config.normalize()
+	return config, config.Validate()
+}
+
+func (c *Config) normalize() {
+	if strings.TrimSpace(c.Cron) == "" {
+		c.Cron = "0 0 * * *"
 	}
-	if config.Cron == "" {
-		panic(errors.New("cron is empty"))
+	if c.Intervals.Book <= 0 {
+		c.Intervals.Book = c.Intervals.LegacyBook
 	}
-	return config, nil
+	if c.Intervals.Book <= 0 {
+		c.Intervals.Book = 1000
+	}
+	if c.Intervals.Chapter <= 0 {
+		c.Intervals.Chapter = 500
+	}
+	if len(c.NovelFilter) == 0 {
+		c.NovelFilter = []string{"all"}
+	}
+	c.Token = strings.TrimSpace(c.Token)
+}
+
+func (c Config) Validate() error {
+	if strings.TrimSpace(c.Cron) == "" {
+		c.Cron = "0 0 * * *"
+	}
+	return nil
 }
