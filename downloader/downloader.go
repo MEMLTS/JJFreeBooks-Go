@@ -25,6 +25,8 @@ type Summary struct {
 	SkippedBooks    int
 }
 
+const chapterFetchMaxAttempts = 3
+
 func New(cfg config.Config, logf LogFunc) *Downloader {
 	if logf == nil {
 		logf = func(string, ...any) {}
@@ -125,6 +127,35 @@ func (d *Downloader) buildBookContent(book api.NovelData) (string, error) {
 
 func (d *Downloader) fetchChapter(novelID string, chapter api.Chapter) (api.ChapterDetail, error) {
 	d.logf("章节 %s: %s", chapter.ChapterID, chapter.ChapterName)
+	var lastErr error
+	for attempt := 1; attempt <= chapterFetchMaxAttempts; attempt++ {
+		if attempt > 1 {
+			d.logf("章节 %s 开始第 %d/%d 次抓取", chapter.ChapterID, attempt, chapterFetchMaxAttempts)
+		}
+
+		detail, err := d.fetchChapterOnce(novelID, chapter)
+		if err == nil {
+			if attempt > 1 {
+				d.logf("章节 %s 在第 %d/%d 次抓取时成功", chapter.ChapterID, attempt, chapterFetchMaxAttempts)
+			}
+			return detail, nil
+		}
+
+		lastErr = err
+		if attempt == chapterFetchMaxAttempts {
+			d.logf("章节 %s 抓取失败，已达到最大重试次数 %d: %v", chapter.ChapterID, chapterFetchMaxAttempts, err)
+			break
+		}
+
+		delay := d.chapterRetryDelay(attempt)
+		d.logf("章节 %s 抓取失败，第 %d/%d 次重试前等待 %s: %v", chapter.ChapterID, attempt, chapterFetchMaxAttempts, delay, err)
+		time.Sleep(delay)
+	}
+
+	return api.ChapterDetail{}, fmt.Errorf("获取章节 %s 失败，已重试 %d 次: %w", chapter.ChapterName, chapterFetchMaxAttempts, lastErr)
+}
+
+func (d *Downloader) fetchChapterOnce(novelID string, chapter api.Chapter) (api.ChapterDetail, error) {
 	if chapter.IsVip == 0 {
 		return api.GetChapterContent(novelID, chapter.ChapterID)
 	}
@@ -136,11 +167,20 @@ func (d *Downloader) fetchChapter(novelID string, chapter api.Chapter) (api.Chap
 			Content:     "<该章节为 VIP 章节，当前未配置 token，已跳过正文抓取>",
 		}, nil
 	}
+
 	detail, err := api.GetVIPChapterContent(d.config.Token, novelID, chapter.ChapterID)
 	if err != nil {
 		return api.ChapterDetail{}, fmt.Errorf("获取 VIP 章节 %s 失败: %w", chapter.ChapterName, err)
 	}
 	return detail, nil
+}
+
+func (d *Downloader) chapterRetryDelay(attempt int) time.Duration {
+	base := d.config.Intervals.Chapter
+	if base < 500 {
+		base = 500
+	}
+	return time.Duration(base*attempt) * time.Millisecond
 }
 
 func (d *Downloader) sleepChapter() {

@@ -75,7 +75,7 @@ func runScheduler(cfg config.Config) error {
 	}
 
 	if err := runOnceWithLogs(cfg); err != nil {
-		return err
+		fmt.Println("首次任务执行失败，将等待下一次调度重试:", err)
 	}
 
 	c.Start()

@@ -31,6 +31,68 @@ type ChapterDetail struct {
 	ShowSayBodyPage string `json:"show_saybody_page"`
 }
 
+func (c *ChapterDetail) UnmarshalJSON(data []byte) error {
+	type alias ChapterDetail
+	aux := struct {
+		*alias
+		Code       json.RawMessage `json:"code"`
+		UpDown     json.RawMessage `json:"upDown"`
+		Update     json.RawMessage `json:"update"`
+		IsVip      json.RawMessage `json:"isvip"`
+		NoteIsLock json.RawMessage `json:"noteislock"`
+	}{
+		alias: (*alias)(c),
+	}
+
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+
+	var err error
+	if c.Code, err = parseIntField(aux.Code, "code"); err != nil {
+		return err
+	}
+	if c.UpDown, err = parseIntField(aux.UpDown, "upDown"); err != nil {
+		return err
+	}
+	if c.Update, err = parseIntField(aux.Update, "update"); err != nil {
+		return err
+	}
+	if c.IsVip, err = parseIntField(aux.IsVip, "isvip"); err != nil {
+		return err
+	}
+	if c.NoteIsLock, err = parseIntField(aux.NoteIsLock, "noteislock"); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func parseIntField(raw json.RawMessage, fieldName string) (int, error) {
+	if len(raw) == 0 || string(raw) == "null" {
+		return 0, nil
+	}
+
+	var number int
+	if err := json.Unmarshal(raw, &number); err == nil {
+		return number, nil
+	}
+
+	var text string
+	if err := json.Unmarshal(raw, &text); err == nil {
+		if text == "" {
+			return 0, nil
+		}
+		value, convErr := strconv.Atoi(text)
+		if convErr != nil {
+			return 0, fmt.Errorf("字段 %s 的值 %q 不是有效整数: %w", fieldName, text, convErr)
+		}
+		return value, nil
+	}
+
+	return 0, fmt.Errorf("字段 %s 不是有效整数: %s", fieldName, string(raw))
+}
+
 func GetChapterContent(novelId, chapterId string) (ChapterDetail, error) {
 	appUrl := fmt.Sprintf("https://app-cdn.jjwxc.com/androidapi/chapterContent?novelId=%s&chapterId=%s", novelId, chapterId)
 	res, err := http.Get(appUrl)
